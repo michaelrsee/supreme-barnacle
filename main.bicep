@@ -3,7 +3,7 @@
 main.bicep
 
 Author: Michael See
-Date: 05/10/22
+Initial Commit Date: 05/10/22
 
 Description: Deploy a sandbox infrastructure in Azure. 
 
