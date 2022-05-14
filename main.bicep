@@ -32,8 +32,15 @@ param nsg1Location string = 'eastus'
 //param nsg2Location string = 'eastus'
 //param nsg3Name string = 'nsg-dev-${vnetLocation}-${InstanceNumber}'
 //param nsg3Location string = 'eastus'
-param nsgBastionName string = 'nsg-bastion-corehub-${vnetLocation}-${InstanceNumber}'
+param nsgBastionName string = 'nsg-bastion-hub-${vnetLocation}-${InstanceNumber}'
 param nsgBastionLocation string = 'eastus'
+
+@description('Conditional to deploy Bastion')
+param deployBastion bool = false
+
+@description('Conditional to deploy firewall')
+param deployFirewall bool = false
+
 
 
 /*** Resources ***/
@@ -72,7 +79,7 @@ module hub 'hub.bicep' = {
   }
 }
 
-module bastion 'module-bastion.bicep' = {
+module bastion 'module-bastion.bicep' = if (deployBastion) {
   name:'bastion'
   scope:resourceGroup(rsgTest.name)
   params:{
@@ -83,7 +90,8 @@ module bastion 'module-bastion.bicep' = {
   }
 }
 
-module firewall 'module-firewall.bicep' = {
+
+module firewall 'module-firewall.bicep' = if (deployFirewall) {
   name:'firewall'
   scope:resourceGroup(rsgTest.name)
   params:{
