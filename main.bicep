@@ -87,6 +87,7 @@ module bastion 'module-bastion.bicep' = if (deployBastion) {
     location:rsgTest.location
     resourceGroup:rsgTest
     bastionSubnetIpPrefix:hub.outputs.coreVnet1Subnet3Prefix
+    nsgBastionID:nsgBastion.outputs.bastionNsgID
   }
 }
 
