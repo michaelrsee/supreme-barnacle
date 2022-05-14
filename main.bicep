@@ -15,6 +15,8 @@ az deployment sub create --template-file main.bicep --location eastus
 
 targetScope = 'subscription'
 
+
+/*** Params ***/
 param namePrefix string = 'rg-sandbox-001'
 param location string = 'eastus'
 param InstanceNumber string = '001'
@@ -35,7 +37,6 @@ param nsgBastionLocation string = 'eastus'
 
 
 /*** Resources ***/
-
 resource rsgTest 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   name: namePrefix
   location: location
