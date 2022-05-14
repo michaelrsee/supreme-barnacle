@@ -20,6 +20,10 @@ param location string = resourceGroup.location
 @description('Existing Bastion Subnet to deploy to')
 param bastionSubnetIpPrefix string
 
+@description('Existing Bastion subnet NSG')
+param nsgBastionID string
+
+
 var publicIpAddressName = 'pip-${bastionHostName}'
 var bastionSubnetName = 'AzureBastionSubnet'
 
@@ -45,6 +49,9 @@ resource subnet 'Microsoft.Network/virtualNetworks/subnets@2020-05-01' = if (vne
   name: bastionSubnetName
   properties: {
     addressPrefix: bastionSubnetIpPrefix
+    networkSecurityGroup:nsgBastionID =='' ? null : {
+      id:nsgBastionID
+    }
   }
 }
 
