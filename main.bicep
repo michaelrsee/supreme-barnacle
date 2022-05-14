@@ -82,3 +82,12 @@ module bastion 'module-bastion.bicep' = {
     bastionSubnetIpPrefix:hub.outputs.coreVnet1Subnet3Prefix
   }
 }
+
+module firewall 'module-firewall.bicep' = {
+  name:'firewall'
+  scope:resourceGroup(rsgTest.name)
+  params:{
+    Location:rsgTest.location
+    hub: vnet1Name
+  }
+}
