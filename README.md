@@ -8,4 +8,4 @@ Constructions Steps:
    - Hub vnet will contain Azure Firewall Subnet and Azure Bastion Subnet. - Done
    - A Network Security Group will deployed on the Azure Bastion subnet, with Bastion specific NSG configuration. - Done
    - Deploy Azure Firewall in the AzureFirewallSubnet - Done
-   - Bastion NSG has to be deployed after Bastion
+   - Bastion NSG has to be deployed before Bastion - Done. Completed in build 0.0.5.
