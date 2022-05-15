@@ -9,4 +9,7 @@ Constructions Steps:
    - A Network Security Group will deployed on the Azure Bastion subnet, with Bastion specific NSG configuration. - Done
    - Deploy Azure Firewall in the AzureFirewallSubnet - Done. Turned off for Bastion validation testing.
    - Bastion NSG has to be deployed before Bastion - Done. Completed in build 0.0.6.
-   - Firewall configuration complete, but currently disabled. 
+   - Firewall configuration complete.
+   - Build 0.0.7 (May 15, 2022): 
+     - Bastion deployment disabled. 
+     - Firewall deployment enabled and was deployed successfully.
