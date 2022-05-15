@@ -36,10 +36,10 @@ param nsgBastionName string = 'nsg-bastion-hub-${vnetLocation}-${InstanceNumber}
 param nsgBastionLocation string = 'eastus'
 
 @description('Conditional to deploy Bastion')
-param deployBastion bool = true
+param deployBastion bool = false
 
 @description('Conditional to deploy firewall')
-param deployFirewall bool = false
+param deployFirewall bool = true
 
 
 
