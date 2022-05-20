@@ -35,11 +35,12 @@ param nsg3Location string = 'eastus'
 param nsgBastionName string = 'nsg-bastion-hub-${vnetLocation}-${InstanceNumber}'
 param nsgBastionLocation string = 'eastus'
 
+
 @description('Conditional to deploy Bastion')
 param deployBastion bool = false
 
 @description('Conditional to deploy firewall')
-param deployFirewall bool = false
+param deployFirewall bool = true
 
 
 
@@ -119,6 +120,8 @@ module spokeDev 'module-spoke-dev.bicep' = {
     vnetInstanceNumber:InstanceNumber
     nsgID:nsg2.outputs.nsgID
     vnet1Name:vnet1Name
+    resourceGroup:rsgTest.name
+    firewall:firewall.outputs.hubFireWalllName
   }
 }
 

@@ -14,6 +14,8 @@ param vnet3Name string
 param vnetInstanceNumber string
 param nsgID string
 param vnet1Name string
+param resourceGroup string
+param firewall string
 
 
 var vnet3Config = {
@@ -24,13 +26,42 @@ var vnet3Config = {
   subnet2Prefix: '10.20.20.0/24'
 }
 
- // existing vnet1
+/*-- Existing Resources --*/
+resource existingResourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' existing = {
+  scope:subscription()
+  name:resourceGroup
+}
+
  resource existingVirtualNetwork 'Microsoft.Network/virtualNetworks@2020-05-01' existing = {
   name: vnet1Name
 }
 
+resource existingFirewall 'Microsoft.Network/azureFirewalls@2021-08-01' existing = {
+  scope:existingResourceGroup
+  name:firewall
+}
+
 
 /*--  Resources  --*/
+// Next hop to the regional hub's Azure Firewall
+resource routeNextHopToFirewall 'Microsoft.Network/routeTables@2021-05-01' = {
+  name: 'route-to-${vnetLocation}-hub-fw'
+  location: vnetLocation
+  properties: {
+    routes: [
+      {
+        name: 'r-nexthop-to-fw'
+        properties: {
+          nextHopType: 'VirtualAppliance'
+          addressPrefix: '0.0.0.0/0'
+          nextHopIpAddress: existingFirewall.properties.ipConfigurations[0].properties.privateIPAddress
+        }
+      }
+    ]
+  }
+}
+
+
 resource vnet3 'Microsoft.Network/virtualNetworks@2020-05-01' = {
   name: vnet3Name
   location: vnetLocation
@@ -45,6 +76,9 @@ resource vnet3 'Microsoft.Network/virtualNetworks@2020-05-01' = {
         name: vnet3Config.subnet1Name
         properties: {
           addressPrefix: vnet3Config.subnet1Prefix
+          routeTable:{
+            id:routeNextHopToFirewall.id
+          }
           networkSecurityGroup: nsgID == '' ? null : {
             id:nsgID
           }
@@ -54,6 +88,9 @@ resource vnet3 'Microsoft.Network/virtualNetworks@2020-05-01' = {
         name: vnet3Config.subnet2Name
         properties: {
           addressPrefix: vnet3Config.subnet2Prefix
+          routeTable:{
+            id:routeNextHopToFirewall.id
+          }
           networkSecurityGroup: nsgID == '' ? null : {
             id:nsgID
           }
@@ -63,7 +100,7 @@ resource vnet3 'Microsoft.Network/virtualNetworks@2020-05-01' = {
   }
 }
 
-// could do an existing for vnet1 here
+
 resource vnetPeering3 'Microsoft.Network/virtualNetworks/virtualNetworkPeerings@2020-05-01' = {
   parent: existingVirtualNetwork
   name: '${vnet1Name}-TO-${vnet3Name}'
