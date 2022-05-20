@@ -176,3 +176,5 @@ resource hubFirewall 'Microsoft.Network/azureFirewalls@2021-05-01' = {
    ]
   }
 }
+
+output hubFireWalllName string = hubFirewall.name

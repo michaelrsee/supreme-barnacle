@@ -13,3 +13,5 @@ Constructions Steps:
    - Build 0.0.7 (May 15, 2022): 
      - Bastion deployment disabled. 
      - Firewall deployment enabled and was deployed successfully.
+   - Build 0.0.8 (May 19,2022)
+    - Add User Defined Route for Dev subnets to route all internet traffic to the firewall 
