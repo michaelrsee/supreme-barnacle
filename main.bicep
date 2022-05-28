@@ -23,13 +23,13 @@ param InstanceNumber string = '001'
 
 param vnetLocation string = 'eastus'
 param vnet1Name string = 'vnet-hub-${vnetLocation}'
-//param vnet2Name string = 'vnet-prod-${vnetLocation}'
+param vnet2Name string = 'vnet-prod-${vnetLocation}'
 param vnet3Name string = 'vnet-dev-${vnetLocation}'
 
 param nsg1Name string = 'nsg-hub-${vnetLocation}-${InstanceNumber}'
 param nsg1Location string = 'eastus'
-//param nsg2Name string = 'nsg-prod-${vnetLocation}-${InstanceNumber}'
-//param nsg2Location string = 'eastus'
+param nsg2Name string = 'nsg-prod-${vnetLocation}-${InstanceNumber}'
+param nsg2Location string = 'eastus'
 param nsg3Name string = 'nsg-dev-${vnetLocation}-${InstanceNumber}'
 param nsg3Location string = 'eastus'
 param nsgBastionName string = 'nsg-bastion-hub-${vnetLocation}-${InstanceNumber}'
@@ -125,3 +125,26 @@ module spokeDev 'module-spoke-dev.bicep' = {
   }
 }
 
+//nsg for prod subnets
+module nsg3 'module-nsg.bicep' = {
+  name:'nsg3-module'
+  scope:resourceGroup(rsgTest.name)
+  params:{
+    nsgName:nsg2Name
+    nsgLocation:nsg2Location
+  }
+}
+
+module spokeProd 'module-spoke-prod.bicep' = {
+  name:'spokeProd'
+  scope:resourceGroup(rsgTest.name)
+  params:{
+    vnetLocation:vnetLocation
+    vnet2Name:vnet2Name
+    vnetInstanceNumber:InstanceNumber
+    nsgID:nsg3.outputs.nsgID
+    vnet1Name:vnet1Name
+    resourceGroup:rsgTest.name
+    firewall:firewall.outputs.hubFireWalllName
+  }
+}
