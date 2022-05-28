@@ -17,3 +17,8 @@ Constructions Steps:
     - Add User Defined Route for Dev subnets to route all internet traffic to the firewall 
    - Build 0.0.9 (May 27, 2022)
      - module-spoke-prod.bicep deployment successful
+
+
+
+Network Layout 
+![Network Diagram](/images/2022-05-27_21-05-33.png)
