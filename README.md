@@ -19,7 +19,7 @@ Constructions Steps:
      - module-spoke-prod.bicep deployment successful
    - Build 0.0.10 
      - To include VM and AKS cluster to the dev web subnet and PaaS Sql to the dev SQL subnet. 
-
+     - Adding a conditional to not deploy the dev subnet for testing purposes. This will be reverted in another update. 
 
 Network Layout 
 ![Network Diagram](/images/2022-05-27_21-05-33.png)
