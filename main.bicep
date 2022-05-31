@@ -42,6 +42,8 @@ param deployBastion bool = false
 @description('Conditional to deploy firewall')
 param deployFirewall bool = true
 
+@description('Conditional to deploy the dev subnet')
+param deployDevSubnet bool = false
 
 
 /*** Resources ***/
@@ -111,7 +113,7 @@ module nsg2 'module-nsg.bicep' = {
   }
 }
 
-module spokeDev 'module-spoke-dev.bicep' = {
+module spokeDev 'module-spoke-dev.bicep' = if (deployDevSubnet) {
   name:'spokeDev'
   scope:resourceGroup(rsgTest.name)
   params:{
