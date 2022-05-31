@@ -17,7 +17,8 @@ Constructions Steps:
     - Add User Defined Route for Dev subnets to route all internet traffic to the firewall 
    - Build 0.0.9 (May 27, 2022)
      - module-spoke-prod.bicep deployment successful
-
+   - Build 0.0.10 
+     - To include VM and AKS cluster to the dev web subnet and PaaS Sql to the dev SQL subnet. 
 
 
 Network Layout 
